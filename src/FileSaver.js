@@ -45,13 +45,14 @@ function download (url, name, opts) {
 }
 
 function corsEnabled (url) {
-  var xhr = new XMLHttpRequest()
-  // use sync to avoid popup blocker
-  xhr.open('HEAD', url, false)
-  try {
-    xhr.send()
-  } catch (e) {}
-  return xhr.status >= 200 && xhr.status <= 299
+  return true;
+  // var xhr = new XMLHttpRequest()
+  // // use sync to avoid popup blocker
+  // xhr.open('HEAD', url, false)
+  // try {
+  //   xhr.send()
+  // } catch (e) {}
+  // return xhr.status >= 200 && xhr.status <= 299
 }
 
 // `a.click()` doesn't work for all browsers (#465)

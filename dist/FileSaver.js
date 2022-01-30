@@ -10,7 +10,7 @@
     factory();
     global.FileSaver = mod.exports;
   }
-})(this, function () {
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
   /*
@@ -63,15 +63,13 @@
   }
 
   function corsEnabled(url) {
-    var xhr = new XMLHttpRequest(); // use sync to avoid popup blocker
-
-    xhr.open('HEAD', url, false);
-
-    try {
-      xhr.send();
-    } catch (e) {}
-
-    return xhr.status >= 200 && xhr.status <= 299;
+    return true; // var xhr = new XMLHttpRequest()
+    // // use sync to avoid popup blocker
+    // xhr.open('HEAD', url, false)
+    // try {
+    //   xhr.send()
+    // } catch (e) {}
+    // return xhr.status >= 200 && xhr.status <= 299
   } // `a.click()` doesn't work for all browsers (#465)
 
 
@@ -88,11 +86,11 @@
   // https://www.whatismybrowser.com/guides/the-latest-user-agent/macos
 
 
-  var isMacOSWebView = /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
+  var isMacOSWebView = _global.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
   var saveAs = _global.saveAs || ( // probably in some web worker
-  typeof window !== 'object' || window !== _global ? function saveAs() {}
-  /* noop */
-  // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
+  typeof window !== 'object' || window !== _global ? function saveAs() {
+    /* noop */
+  } // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
   : 'download' in HTMLAnchorElement.prototype && !isMacOSWebView ? function saveAs(blob, name, opts) {
     var URL = _global.URL || _global.webkitURL;
     var a = document.createElement('a');
